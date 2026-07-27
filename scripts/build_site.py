@@ -176,11 +176,21 @@ def load_pages(manifest: dict) -> list[ParsedPage]:
         for entry in manifest["entries"]
     }
     pages: list[ParsedPage] = []
+    seen_source_pages: set[tuple[str, str]] = set()
     for entry in manifest["entries"]:
         if entry["kind"] != "html":
             continue
+        source_url = str(entry["source_url"])
+        source_host = urlparse(source_url).hostname or ""
+        source_path_value = unquote(urlparse(source_url).path).strip("/")
+        source_slug = re.sub(r"\.(html?|HTML?)$", "", source_path_value)
+        source_slug = re.sub(r"[^A-Za-z0-9]+", "-", source_slug).strip("-").lower() or "index"
+        source_key = (source_host, source_slug)
+        if source_key in seen_source_pages:
+            continue
+        seen_source_pages.add(source_key)
         source_path = ROOT / str(entry["archive_path"])
-        parser = ContentParser(str(entry["source_url"]))
+        parser = ContentParser(source_url)
         parser.feed(decode_source(source_path.read_bytes()))
         text = normalize_text("".join(parser.fragments))
         images = []
@@ -195,10 +205,10 @@ def load_pages(manifest: dict) -> list[ParsedPage]:
         updated = next((line for line in text if "last updated" in line.lower()), "")
         pages.append(
             ParsedPage(
-                source_url=str(entry["source_url"]),
-                host=urlparse(str(entry["source_url"])).hostname or "",
+                source_url=source_url,
+                host=source_host,
                 source_path=str(entry["archive_path"]),
-                title=title_from_page(parser, text, str(entry["source_url"])),
+                title=title_from_page(parser, text, source_url),
                 text=text,
                 images=images,
                 updated=updated,

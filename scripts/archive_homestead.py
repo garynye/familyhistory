@@ -90,6 +90,8 @@ def safe_relative_path(url: str, *, html: bool) -> Path:
     relative = Path(*clean_parts) if clean_parts else Path("index.html")
     if html and relative.suffix.lower() not in {".htm", ".html"}:
         relative = relative / "index.html"
+    if html and relative.name.lower() == "index.html":
+        relative = relative.with_name("index.html")
     return relative
 
 
@@ -226,4 +228,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
