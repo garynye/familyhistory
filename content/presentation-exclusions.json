@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/annehathaway/bluedash.gif",
+      "sha256": "a31bf7ab28e3b84ba84fe9d778a88b084252293d857b500ec0a65d5261ecba82",
+      "category": "decoration",
+      "reason": "Legacy Family Tree decorative dash"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/annehathaway/bluediam.gif",
+      "sha256": "0b1f4d661b4e7698e2eccc8a50678024065ea2031468cf7d973f034c5ea746f7",
+      "category": "decoration",
+      "reason": "Legacy Family Tree decorative bullet"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/annehathaway/email.gif",
+      "sha256": "7c55d8ff0eb9cd3e534fec754355545405e51f3627d0faa7a3ac3b04ef51af94",
+      "category": "contact",
+      "reason": "Legacy Family Tree email button"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/annehathaway/next.jpg",
+      "sha256": "70dd613dce76f6a32ef9a2773146360d877ae8779452153e612cd61778a84fc1",
+      "category": "navigation",
+      "reason": "Legacy Family Tree next arrow"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/annehathaway/prev.jpg",
+      "sha256": "2eedd168a7c3ef7c3cdfa2005dd6481c14b3c9ef8252dccb4309733d90b79fce",
+      "category": "navigation",
+      "reason": "Legacy Family Tree previous arrow"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Anna-Mae~~element4.gif",
+      "sha256": "30c26669fdf3b3a2928124b436225e8caa32aa1851b91ded122725719f847de4",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Carl~~element4.gif",
+      "sha256": "61dd61aac19e3edde01b9027ba4418e2bb89b62206e0a83462de2f8c0df69c62",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/David-Daniel-Jordan~~element4.gif",
+      "sha256": "68c4f31ae817a41f62f966c1597472aad815fefd8323c0f420eb6258614d152d",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Dorothy~~element5.gif",
+      "sha256": "1625d62b9b95987d9bb838c26b298fca09b9d3c3a25061771145c8103a21c13f",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Johan-Wilhelm-Nyman~~element25.png",
+      "sha256": "37cc9dd0d281054d0671a9084d4248cb542bd821f2c7bbdb71ab90ea40db16bc",
+      "category": "navigation",
+      "reason": "Linked legacy home control"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Johan-Wilhelm-Nyman~~element26.png",
+      "sha256": "7e05f41dea0aa440f5b7830ad4b6fb168179d315a4d2ceae5395e3183f1c4ef7",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Morten~~element4.gif",
+      "sha256": "a953c2bbd316a6a9677ac50b7d378b2c99c6cc74d28590a28204d29b3d7f2ae8",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Olof-Djurfeldt~~element24.png",
+      "sha256": "bd1276372efc7c36440809cc00450c734dcddbe23eb2841cc46e870d75b0c168",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Roy~~element4.gif",
+      "sha256": "05efe4792e5c5f9b48a7a86e338807cea7b0d718570019f5d9af70d3cecc8f38",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/untitled1~~element47.gif",
+      "sha256": "92f7a6a7169b6167911cc34605adb5184a58bfdb5032f8651d7c2f780332c7cc",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Victor~~element28.png",
+      "sha256": "0e3504f900da484cba185486e7c76d5062b896c87eaf51a119ee186cc8cee36f",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/Virginia~~element4.gif",
+      "sha256": "9b444b1806244bdac2d5c740803ece2eddfdca4b1c05b93d6e9be6836f4e4635",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/William~~element4.gif",
+      "sha256": "72b257c504dc277aeab0b72f0909df18fc7d8cbdefe8f25d7ae5e5a2d9fb3372",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/karlaugust.homestead.com/tp.gif",
+      "sha256": "b1442e85b03bdcaf66dc58c7abb98745dd2687d86350be9a298a1d9382ac849b",
+      "category": "spacer",
+      "reason": "Homestead transparent spacer pixel"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/annehathaway/bluediam.gif",
+      "sha256": "0b1f4d661b4e7698e2eccc8a50678024065ea2031468cf7d973f034c5ea746f7",
+      "category": "decoration",
+      "reason": "Legacy Family Tree decorative bullet"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/annehathaway/bluepin1.gif",
+      "sha256": "9c6dd1a5f06e06cf8075785df525c7640fc75a19f5591045f96b91fe488194d2",
+      "category": "decoration",
+      "reason": "Legacy Family Tree decorative pin"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/annehathaway/email.gif",
+      "sha256": "7c55d8ff0eb9cd3e534fec754355545405e51f3627d0faa7a3ac3b04ef51af94",
+      "category": "contact",
+      "reason": "Legacy Family Tree email button"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/annehathaway/next.jpg",
+      "sha256": "70dd613dce76f6a32ef9a2773146360d877ae8779452153e612cd61778a84fc1",
+      "category": "navigation",
+      "reason": "Legacy Family Tree next arrow"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/annehathaway/prev.jpg",
+      "sha256": "2eedd168a7c3ef7c3cdfa2005dd6481c14b3c9ef8252dccb4309733d90b79fce",
+      "category": "navigation",
+      "reason": "Legacy Family Tree previous arrow"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/publishImages/Danish-Documents~~element37.gif",
+      "sha256": "a5f7f1d2a9178928af8f8d0fee44189cc4c3ae447f2606c38b990513158f4fdb",
+      "category": "navigation",
+      "reason": "Homestead-generated image linked to a collection home page"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/publishImages/index~~element66.gif",
+      "sha256": "a5f7f1d2a9178928af8f8d0fee44189cc4c3ae447f2606c38b990513158f4fdb",
+      "category": "navigation",
+      "reason": "Duplicate navigation control linked to the Danish Documents collection"
+    },
+    {
+      "archive_path": "archive/media/mortensen.homestead.com/tp.gif",
+      "sha256": "b1442e85b03bdcaf66dc58c7abb98745dd2687d86350be9a298a1d9382ac849b",
+      "category": "spacer",
+      "reason": "Homestead transparent spacer pixel"
+    },
+    {
+      "archive_path": "archive/media/nojd.homestead.com/files/airbrush.jpg",
+      "sha256": "2997238f6a1c0ddcd954293256a3e08ddfcdaf879c603a5adb695fd7f30e6501",
+      "category": "decoration",
+      "reason": "Legacy Family Tree page separator"
+    },
+    {
+      "archive_path": "archive/media/nojd.homestead.com/files/bluediam.gif",
+      "sha256": "0b1f4d661b4e7698e2eccc8a50678024065ea2031468cf7d973f034c5ea746f7",
+      "category": "decoration",
+      "reason": "Legacy Family Tree decorative bullet"
+    },
+    {
+      "archive_path": "archive/media/nojd.homestead.com/files/email.gif",
+      "sha256": "7c55d8ff0eb9cd3e534fec754355545405e51f3627d0faa7a3ac3b04ef51af94",
+      "category": "contact",
+      "reason": "Legacy Family Tree email button"
+    },
+    {
+      "archive_path": "archive/media/nojd.homestead.com/files/next.jpg",
+      "sha256": "70dd613dce76f6a32ef9a2773146360d877ae8779452153e612cd61778a84fc1",
+      "category": "navigation",
+      "reason": "Legacy Family Tree next arrow"
+    },
+    {
+      "archive_path": "archive/media/nojd.homestead.com/files/prev.jpg",
+      "sha256": "2eedd168a7c3ef7c3cdfa2005dd6481c14b3c9ef8252dccb4309733d90b79fce",
+      "category": "navigation",
+      "reason": "Legacy Family Tree previous arrow"
+    },
+    {
+      "archive_path": "archive/media/nojd.homestead.com/tp.gif",
+      "sha256": "b1442e85b03bdcaf66dc58c7abb98745dd2687d86350be9a298a1d9382ac849b",
+      "category": "spacer",
+      "reason": "Homestead transparent spacer pixel"
+    }
+  ]
+}

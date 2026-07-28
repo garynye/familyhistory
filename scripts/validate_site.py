@@ -11,6 +11,13 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
+from presentation_media import (
+    entry_is_excluded,
+    load_exclusions,
+    unreviewed_candidates,
+    validate_exclusions,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
@@ -58,6 +65,16 @@ def main() -> int:
         return 1
 
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    exclusions = load_exclusions()
+    errors.extend(validate_exclusions(manifest, exclusions))
+    excluded_routes = {
+        f"/media/{Path(entry['archive_path']).relative_to('archive/media').as_posix()}"
+        for entry in manifest["entries"]
+        if entry["kind"] == "asset" and entry_is_excluded(entry, exclusions)
+    }
+    for candidate in unreviewed_candidates(manifest, exclusions):
+        errors.append(f"unreviewed presentation-media candidate: {candidate.archive_path}")
+
     for entry in manifest["entries"]:
         path = ROOT / entry["archive_path"]
         if not path.exists():
@@ -75,6 +92,10 @@ def main() -> int:
         parser = LinkParser()
         parser.feed(source)
         for reference in parser.references:
+            if urlparse(reference).path in excluded_routes:
+                errors.append(
+                    f"excluded presentation media in {page.relative_to(DIST)}: {reference}"
+                )
             target = local_target(reference, page)
             if target is not None and not target.exists():
                 errors.append(f"broken reference in {page.relative_to(DIST)}: {reference}")
@@ -111,4 +132,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

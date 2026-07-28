@@ -13,6 +13,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlparse
 
+from presentation_media import entry_is_excluded, load_exclusions
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
@@ -54,6 +56,7 @@ class ParsedPage:
     title: str
     text: list[str] = field(default_factory=list)
     images: list[ImageReference] = field(default_factory=list)
+    source_image_count: int = 0
     updated: str = ""
 
     @property
@@ -170,7 +173,7 @@ def title_from_page(parser: ContentParser, text: list[str], source_url: str) -> 
     return re.sub(r"[-_]+", " ", stem or "Home").title()
 
 
-def load_pages(manifest: dict) -> list[ParsedPage]:
+def load_pages(manifest: dict, exclusions: dict[str, dict]) -> list[ParsedPage]:
     captured_by_url = {
         str(entry["source_url"]).lower().rstrip("/"): entry
         for entry in manifest["entries"]
@@ -201,6 +204,8 @@ def load_pages(manifest: dict) -> list[ParsedPage]:
             if not asset or key in seen:
                 continue
             seen.add(key)
+            if entry_is_excluded(asset, exclusions):
+                continue
             images.append(image)
         updated = next((line for line in text if "last updated" in line.lower()), "")
         pages.append(
@@ -211,6 +216,7 @@ def load_pages(manifest: dict) -> list[ParsedPage]:
                 title=title_from_page(parser, text, source_url),
                 text=text,
                 images=images,
+                source_image_count=len(seen),
                 updated=updated,
             )
         )
@@ -313,6 +319,12 @@ def render_archive_page(page: ParsedPage, assets: dict[str, dict]) -> str:
 </figure>"""
         )
     gallery = f'<section class="page-gallery"><h2>Images and documents</h2><div class="gallery-grid">{"".join(figures)}</div></section>' if figures else ""
+    if gallery:
+        gallery_markup = f"  {gallery}"
+    elif page.source_image_count:
+        gallery_markup = ""
+    else:
+        gallery_markup = "  "
     body = f"""
 <article class="archive-page">
   <header class="page-hero">
@@ -330,7 +342,7 @@ def render_archive_page(page: ParsedPage, assets: dict[str, dict]) -> str:
       <a href="https://github.com/garynye/familyhistory/blob/main/{escape(page.source_path)}">Inspect captured HTML</a>
     </aside>
   </div>
-  {gallery}
+{gallery_markup}
 </article>
 """
     return page_shell(page.title, f"{page.title}, preserved from {page.host}.", body, root=f"/{page.route}")
@@ -523,7 +535,8 @@ def main() -> int:
         raise SystemExit("archive/manifest.json is missing; run archive_homestead.py first")
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-    pages = load_pages(manifest)
+    exclusions = load_exclusions()
+    pages = load_pages(manifest, exclusions)
     assets = {
         str(entry["source_url"]).lower().rstrip("/"): entry
         for entry in manifest["entries"]

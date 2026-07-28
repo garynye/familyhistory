@@ -18,6 +18,8 @@ The site has no third-party runtime dependencies. Python 3 is used only for
 archiving, rendering, and validation.
 
 ```sh
+python3 scripts/presentation_media.py --check
+python3 -m unittest discover -s tests
 python3 scripts/archive_homestead.py
 python3 scripts/build_site.py
 python3 scripts/validate_site.py
@@ -36,8 +38,13 @@ byte size, and SHA-256 digest for every captured object.
 The public pages are regenerated from those captures. Obsolete Homestead
 trackers, forms, guestbooks, and remote scripts are not executed.
 
+Legacy website interface graphics remain in the preservation archive but are
+excluded from modern galleries and collection covers. The reviewed exclusions
+are recorded in `content/presentation-exclusions.json`; run
+`python3 scripts/presentation_media.py` to audit navigation controls, spacers,
+tracking pixels, and decorative interface assets found in the source HTML.
+
 ## Rights
 
 See [RIGHTS.md](RIGHTS.md). The software license does not grant rights to
 archived family material.
-
