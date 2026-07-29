@@ -14,6 +14,7 @@ from presentation_media import (  # noqa: E402
     MANIFEST_PATH,
     ImageEvidence,
     classify_evidence,
+    entry_is_excluded,
     load_exclusions,
     unreviewed_candidates,
     validate_exclusions,
@@ -51,6 +52,18 @@ class PresentationMediaTests(unittest.TestCase):
 
     def test_all_high_confidence_candidates_are_reviewed(self) -> None:
         self.assertEqual(unreviewed_candidates(self.manifest, self.exclusions), [])
+
+    def test_william_swedish_documents_button_is_excluded(self) -> None:
+        archive_path = (
+            "archive/media/karlaugust.homestead.com/"
+            "publishImages/William~~element5.gif"
+        )
+        asset = next(
+            entry
+            for entry in self.manifest["entries"]
+            if entry["archive_path"] == archive_path
+        )
+        self.assertTrue(entry_is_excluded(asset, self.exclusions))
 
 
 if __name__ == "__main__":

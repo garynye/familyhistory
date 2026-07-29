@@ -110,6 +110,12 @@
       "reason": "Homestead-generated image linked to a collection home page"
     },
     {
+      "archive_path": "archive/media/karlaugust.homestead.com/publishImages/William~~element5.gif",
+      "sha256": "a3ec09903aaac069f4fca8a553ec055cc5d1bc36f7275a741f3669e58c6091ea",
+      "category": "navigation",
+      "reason": "Legacy Swedish Documents navigation button"
+    },
+    {
       "archive_path": "archive/media/karlaugust.homestead.com/tp.gif",
       "sha256": "b1442e85b03bdcaf66dc58c7abb98745dd2687d86350be9a298a1d9382ac849b",
       "category": "spacer",
