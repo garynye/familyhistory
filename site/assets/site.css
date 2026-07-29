@@ -560,6 +560,22 @@ h3 {
   background: linear-gradient(135deg, #d9d0c1, #eee8dc);
 }
 
+.genealogy-card-mark {
+  display: grid;
+  place-items: center;
+  color: #e8c585;
+  background:
+    radial-gradient(circle at 68% 22%, rgba(189, 141, 71, 0.25), transparent 48%),
+    var(--forest);
+}
+
+.genealogy-card-mark span {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+}
+
 .page-card > div:last-child {
   padding: 1.5rem;
 }
@@ -603,6 +619,138 @@ h3 {
 .archive-page .page-hero {
   margin-right: calc(clamp(1.25rem, 7vw, 8rem) * -1);
   margin-left: calc(clamp(1.25rem, 7vw, 8rem) * -1);
+}
+
+.genealogy-page .page-hero {
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.genealogy-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.genealogy-stats span {
+  min-width: 150px;
+  padding: 1rem 1.2rem;
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.genealogy-stats strong {
+  display: block;
+  color: #e8c585;
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.genealogy-hub {
+  display: grid;
+  gap: 1px;
+  margin-top: clamp(4rem, 8vw, 7rem);
+  background: var(--line);
+}
+
+.genealogy-panel {
+  padding: clamp(2rem, 6vw, 5rem);
+  background: var(--paper);
+}
+
+.genealogy-panel h2,
+.genealogy-provenance h2 {
+  max-width: 780px;
+}
+
+.genealogy-panel > p:not(.eyebrow),
+.genealogy-provenance p:not(.eyebrow) {
+  max-width: 720px;
+  color: #5b6860;
+}
+
+.genealogy-link-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.genealogy-link {
+  display: block;
+  min-height: 92px;
+  padding: 1.2rem;
+  background: white;
+  border: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.genealogy-link strong,
+.genealogy-link span {
+  display: block;
+}
+
+.genealogy-link strong {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.genealogy-link span {
+  margin-top: 0.35rem;
+  color: #68746d;
+  font-size: 0.73rem;
+}
+
+.alphabet-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 2rem;
+}
+
+.alphabet-links a {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.45rem 0.7rem;
+  color: var(--forest);
+  background: white;
+  border: 1px solid var(--line);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.alphabet-links a:hover,
+.genealogy-link:hover {
+  color: var(--plum);
+  border-color: var(--gold);
+}
+
+.genealogy-support {
+  margin-top: 2.5rem;
+}
+
+.genealogy-provenance {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: clamp(2rem, 6vw, 5rem);
+  background: var(--cream);
+}
+
+.genealogy-provenance .source-card {
+  position: static;
+  background: var(--paper);
 }
 
 .provenance {
@@ -897,6 +1045,10 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .genealogy-provenance {
+    grid-template-columns: 1fr;
+  }
+
   .source-card {
     position: static;
   }
@@ -953,7 +1105,8 @@ h3 {
   .page-card-grid,
   .about-grid,
   .family-tree-panel,
-  .section-heading.split {
+  .section-heading.split,
+  .genealogy-link-grid {
     grid-template-columns: 1fr;
   }
 

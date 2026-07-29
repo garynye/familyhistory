@@ -13,6 +13,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlparse
 
+from genealogy_groups import GenealogyGroup, group_for_hub, is_collection_visible, title_for_page
 from presentation_media import entry_is_excluded, load_exclusions
 
 
@@ -208,18 +209,18 @@ def load_pages(manifest: dict, exclusions: dict[str, dict]) -> list[ParsedPage]:
                 continue
             images.append(image)
         updated = next((line for line in text if "last updated" in line.lower()), "")
-        pages.append(
-            ParsedPage(
-                source_url=source_url,
-                host=source_host,
-                source_path=str(entry["archive_path"]),
-                title=title_from_page(parser, text, source_url),
-                text=text,
-                images=images,
-                source_image_count=len(seen),
-                updated=updated,
-            )
+        page = ParsedPage(
+            source_url=source_url,
+            host=source_host,
+            source_path=str(entry["archive_path"]),
+            title=title_from_page(parser, text, source_url),
+            text=text,
+            images=images,
+            source_image_count=len(seen),
+            updated=updated,
         )
+        page.title = title_for_page(page.host, page.slug, page.title)
+        pages.append(page)
     pages.sort(key=lambda page: (list(HOST_LABELS).index(page.host), page.slug != "index", page.title.lower()))
     unique_pages: list[ParsedPage] = []
     seen_routes: set[tuple[str, str]] = set()
@@ -348,6 +349,101 @@ def render_archive_page(page: ParsedPage, assets: dict[str, dict]) -> str:
     return page_shell(page.title, f"{page.title}, preserved from {page.host}.", body, root=f"/{page.route}")
 
 
+def render_genealogy_hub(group: GenealogyGroup, page: ParsedPage, pages: list[ParsedPage]) -> str:
+    pages_by_slug = {
+        candidate.slug: candidate
+        for candidate in pages
+        if candidate.host == group.host
+    }
+
+    def page_link(slug: str, label: str, description: str = "") -> str:
+        target = pages_by_slug[slug]
+        return f"""<a class="genealogy-link" href="/{target.route}">
+  <strong>{escape(label)}</strong>
+  {f"<span>{escape(description)}</span>" if description else ""}
+</a>"""
+
+    reports = "".join(
+        page_link(
+            link.slug,
+            link.label,
+            pages_by_slug[link.slug].title,
+        )
+        for link in group.reports
+    )
+    names = "".join(
+        f'<a href="/{pages_by_slug[link.slug].route}" aria-label="{escape(link.title)}">{escape(link.label)}</a>'
+        for link in group.name_pages
+    )
+    sources = "".join(
+        page_link(link.slug, link.label, pages_by_slug[link.slug].title)
+        for link in group.source_pages
+    )
+    downloads = (
+        f'<a class="genealogy-link" href="{escape(group.download_url)}" download>'
+        f"<strong>{escape(group.download_label)}</strong><span>GEDCOM family-tree data</span></a>"
+        if group.download_url
+        else ""
+    )
+    support_links = (
+        page_link(
+            group.surname_page.slug,
+            group.surname_page.label,
+            f"{group.surnames:,} unique surnames",
+        )
+        + sources
+        + downloads
+    )
+    body = f"""
+<article class="archive-page genealogy-page">
+  <header class="page-hero">
+    <p class="eyebrow">{escape(HOST_LABELS[page.host])}</p>
+    <h1>{escape(group.hub_title)}</h1>
+    <p class="provenance">{escape(group.summary)}</p>
+    <div class="genealogy-stats">
+      <span><strong>{group.people:,}</strong> people</span>
+      <span><strong>{group.surnames:,}</strong> surnames</span>
+      <span><strong>{len(group.reports)}</strong> report {"part" if len(group.reports) == 1 else "parts"}</span>
+    </div>
+  </header>
+  <div class="genealogy-hub">
+    <section class="genealogy-panel">
+      <p class="eyebrow">Family report</p>
+      <h2>Follow the family through the generations</h2>
+      <p>The original report pages remain preserved as published, now with clear titles and direct navigation.</p>
+      <div class="genealogy-link-grid">{reports}</div>
+    </section>
+    <section class="genealogy-panel">
+      <p class="eyebrow">Name index</p>
+      <h2>Browse alphabetically</h2>
+      <p>Choose a letter to open the corresponding preserved name list.</p>
+      <nav class="alphabet-links" aria-label="Alphabetical genealogy index">{names}</nav>
+      <div class="genealogy-link-grid genealogy-support">{support_links}</div>
+    </section>
+    <aside class="genealogy-provenance">
+      <div>
+        <p class="eyebrow">Preservation</p>
+        <h2>Original records, clearer navigation</h2>
+        <p>No genealogy pages have been removed. This hub groups the supporting report and index files that the original Legacy Family Tree software published as separate pages.</p>
+      </div>
+      <div class="source-card">
+        <span>Original source</span>
+        <strong>{escape(page.host)}</strong>
+        <a href="{escape(page.source_url)}">Open original page</a>
+        <a href="https://github.com/garynye/familyhistory/blob/main/{escape(page.source_path)}">Inspect captured HTML</a>
+      </div>
+    </aside>
+  </div>
+</article>
+"""
+    return page_shell(
+        group.hub_title,
+        group.summary,
+        body,
+        root=f"/{page.route}",
+    )
+
+
 def render_home(config: dict, pages: list[ParsedPage], assets: dict[str, dict]) -> str:
     featured_sources = (
         "https://nojd.homestead.com/files/wedding2.jpg",
@@ -426,14 +522,29 @@ def render_home(config: dict, pages: list[ParsedPage], assets: dict[str, dict]) 
 
 def render_collection_index(host: str, pages: list[ParsedPage], config: dict, assets: dict[str, dict]) -> str:
     host_pages = [page for page in pages if page.host == host]
+    visible_pages = [
+        page
+        for page in host_pages
+        if is_collection_visible(page.host, page.slug)
+    ]
     cards = []
-    for page in host_pages:
+    for page in visible_pages:
+        genealogy_group = group_for_hub(page.host, page.slug)
+        if genealogy_group:
+            cards.append(
+                f"""<a class="page-card genealogy-card" href="/{page.route}">
+  <div class="page-card-placeholder genealogy-card-mark"><span>A–Z</span></div>
+  <div><p class="eyebrow">{genealogy_group.people:,} people · {genealogy_group.surnames:,} surnames</p><h2>{escape(page.title)}</h2><p>{escape(genealogy_group.summary)}</p><span>Browse genealogy →</span></div>
+</a>"""
+            )
+            continue
         cover = next((media_route(image.source, assets) for image in page.images if media_route(image.source, assets)), "")
         excerpt = next((line for line in page.text if len(line) > 45 and "updated" not in line.lower()), "")
+        image_label = f"{len(page.images)} image" if len(page.images) == 1 else f"{len(page.images)} images"
         cards.append(
             f"""<a class="page-card" href="/{page.route}">
   {f'<img src="{escape(cover)}" alt="" loading="lazy">' if cover else '<div class="page-card-placeholder"></div>'}
-  <div><p class="eyebrow">{len(page.images)} images</p><h2>{escape(page.title)}</h2><p>{escape(excerpt[:180])}</p><span>View page →</span></div>
+  <div><p class="eyebrow">{image_label}</p><h2>{escape(page.title)}</h2><p>{escape(excerpt[:180])}</p><span>View page →</span></div>
 </a>"""
         )
     label = HOST_LABELS[host]
@@ -442,7 +553,7 @@ def render_collection_index(host: str, pages: list[ParsedPage], config: dict, as
   <p class="eyebrow">Preserved collection</p>
   <h1>{escape(label)}</h1>
   <p>{escape(config["collection_notes"][host])}</p>
-  <div class="collection-meta"><span>{len(host_pages)} pages</span><span>Source: {escape(host)}</span></div>
+  <div class="collection-meta"><span>{len(visible_pages)} sections</span><span>{len(host_pages)} preserved pages</span><span>Source: {escape(host)}</span></div>
 </section>
 <section class="page-card-grid">{"".join(cards)}</section>
 """
@@ -552,7 +663,13 @@ def main() -> int:
             render_collection_index(host, pages, config, assets),
         )
     for page in pages:
-        write_file(page.route, render_archive_page(page, assets))
+        genealogy_group = group_for_hub(page.host, page.slug)
+        rendered = (
+            render_genealogy_hub(genealogy_group, page, pages)
+            if genealogy_group
+            else render_archive_page(page, assets)
+        )
+        write_file(page.route, rendered)
     write_file("gallery/index.html", render_gallery(pages, assets))
     write_file("about/index.html", render_about(manifest))
 

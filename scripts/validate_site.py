@@ -104,6 +104,23 @@ def main() -> int:
         if re.search(r"<script[^>]+src=[\"']http:", source, flags=re.I):
             errors.append(f"mixed-content script: {page.relative_to(DIST)}")
 
+        if page.parent.parent == DIST / "collections" and page.name == "index.html":
+            card_titles = re.findall(
+                r'<a class="page-card[^"]*"[^>]*>.*?<h2>(.*?)</h2>',
+                source,
+                flags=re.S,
+            )
+            duplicate_titles = sorted({
+                title
+                for title in card_titles
+                if card_titles.count(title) > 1
+            })
+            if duplicate_titles:
+                errors.append(
+                    f"duplicate collection card titles in {page.relative_to(DIST)}: "
+                    f"{', '.join(duplicate_titles)}"
+                )
+
     search_path = DIST / "search-index.json"
     try:
         search = json.loads(search_path.read_text(encoding="utf-8"))
